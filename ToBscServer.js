@@ -10,6 +10,7 @@ const   express    = require('express'),
         chatController  = require('./chatController'),
         crawlerController= require('./crawlerController'),
         collegesController= require('./collegesController'),
+        scholarshipsController=require('./scholarshipsController'),
         subEngController= require('./subEngController'),
         request    = require('request'),
         Crawler = require("crawler"),
@@ -60,6 +61,16 @@ app.post('/filterColleges',collegesController.filterColleges);
 
 app.post('/forgotPassword',userList.forgotPassword);
 
+app.post('/favoriteColleges',collegesController.favoriteColleges);
+
+app.post('/rateColleges',collegesController.rateColleges);
+
+app.post('/unFavoriteColleges',collegesController.unFavoriteColleges);
+
+app.get('/getFavoriteUserId/:_id',collegesController.getFavoriteUserId);
+
+
+
 app.get('/getAllQuestions',
      (req,res)=>{
       questionController.allQuestion().then(docs => res.json(docs));
@@ -70,6 +81,12 @@ app.get('/getAllChat',
    (req,res)=>{
       chatController.allQuestion().then(docs => res.json(docs));
 });
+app.get('/getAllScholarships',
+   (req,res)=>{
+      scholarshipsController.getAllScholarships().then(docs => res.json(docs));
+});
+
+app.post('/filterScholarships',scholarshipsController.filterScholarships);
 
 // app.get('/getAllInstitutes',
 //      (req,res)=>{
@@ -82,7 +99,10 @@ app.get('/getAllSubEng',
 });
 
 app.get('/getQuestion/:idNum', chatController.getQuestionById);
+app.post('/getUserSubEngById' , chatController.getUserSubEngById);
+app.post('/createSubEngByUserOrReturn', chatController.createSubEngByUserOrReturn);
 
+app.post('/updateSubEngWeights', chatController.updateSubEngWeights); 
 
 app.get('/calculateSubEngByUser/:userID/:answers/(:softwareArr)/(:chemistryArr)/(:electronicArr)/(:medicalArr)/(:managementArr)/(:buildingArr)/(:machineArr)', chatController.calculateSubEng);
 
@@ -120,6 +140,7 @@ var i = schedule.scheduleJob(getRatesRule, function(){
     console.log('Automatic Schedule: Get Departments Data Started !');
     crawlerController.getDepartmentsData();
 });
+
 
 app.listen(port,
     () => {
