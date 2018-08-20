@@ -502,7 +502,7 @@ exports.getCollegesData = function(req, res){
             };
 
             var currCollege = 0;
-            var collegesLen = collegesArr.length;
+            var collegesLen = colleges.length;
             var numOfRents = 10;
 
             for (var i = 0; i<collegesLen; i++) {
@@ -538,10 +538,10 @@ exports.getCollegesData = function(req, res){
             function saveAverage(averageRent, collegeUrl){
                 if(averageRent){
                     // set college details
-                    for (var j = 0; j < collegesArr.length; j++) {
-                        if(collegesArr[j].rentUrl == collegeUrl){
+                    for (var j = 0; j < colleges.length; j++) {
+                        if(colleges[j].rentUrl == collegeUrl){
                             // console.log(collegeUrl+" Match!");
-                            // collegesArr[j].averageRents = averageRent;
+                            // colleges[j].averageRents = averageRent;
                             var now = new Date();
                             var history = {
                                 date: dateFormat(now, "dd/mm/yyyy"),
@@ -549,7 +549,7 @@ exports.getCollegesData = function(req, res){
                                 averagePrice: averageRent
                             }
                             College.update(
-                              { "engName": collegesArr[j].engName },
+                              { "engName": colleges[j].name },
                               { "$push": { "averageRents" : history } } ).
                                 exec (function(err, newProduct){
                                     if(err) console.log(err);
@@ -561,10 +561,10 @@ exports.getCollegesData = function(req, res){
                 }
                 else {
                     // set college details
-                    for (var j = 0; j < collegesArr.length; j++) {
+                    for (var j = 0; j < colleges.length; j++) {
                         if(collegesArr[j].rentUrl == collegeUrl){
                             console.log(collegeUrl+" Match Unknown !");
-                            // collegesArr[j].averageRent = "לא ידוע";
+                            // colleges[j].averageRent = "לא ידוע";
                         }
                     }
                 }
