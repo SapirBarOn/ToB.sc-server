@@ -54,6 +54,9 @@ module.exports={
             lastName: req.body.lastName,
             email: req.body.email,
             password:req.body.password ,
+            age:req.body.age,
+            WorkExperience:req.body.WorkExperience,
+            gender:req.body.gender,
             });
 
         newUser.save(
@@ -67,6 +70,28 @@ module.exports={
             });
 
         response.json(newUser);
+    },
+
+    updateUser(req,response){
+        Users.findOneAndUpdate({userId: req.body.userId},
+            {$set: {firstName:req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    age:req.body.age ,
+                    WorkExperience:req.body.WorkExperience, 
+                    gender:req.body.gender}
+            },
+         (err,result)=>{
+            if(err){
+                console.log ('error');
+            }
+
+            else  {
+                console.log(`succses`);
+                return response.status(200).json("data update");
+            }
+
+        });
     },
 
     forgotPassword(req,res){
